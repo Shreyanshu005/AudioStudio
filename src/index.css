@@ -1,0 +1,150 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 262 80% 75%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 265 33% 54%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 262 80% 75%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.waveform-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  touch-action: none; /* Prevent browser handling of touch events during drag */
+}
+
+.waveform {
+  width: 100%;
+  height: 100%;
+}
+
+.waveform-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#left-handle, #right-handle {
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 6px;
+  background-color: rgba(147, 51, 234, 0.8);
+  cursor: col-resize !important;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(0px);
+  transition: background-color 0.2s;
+  will-change: transform; /* Optimize for animations */
+  touch-action: none; /* Disable browser handling of touches */
+}
+
+#left-handle:hover, #right-handle:hover {
+  background-color: rgba(126, 34, 206, 0.9);
+}
+
+#left-handle:active, #right-handle:active,
+#left-handle.dragging, #right-handle.dragging {
+  background-color: rgba(107, 33, 168, 1);
+}
+
+#left-handle {
+  border-right: 1px solid rgba(147, 51, 234, 1);
+}
+
+#right-handle {
+  border-left: 1px solid rgba(147, 51, 234, 1);
+}
+
+#trim-region {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: rgba(139, 92, 246, 0.2);
+  pointer-events: none;
+  z-index: 5;
+  will-change: left, width; /* Optimize for animations */
+}
+
+#playhead {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: #0EA5E9;
+  z-index: 20;
+  will-change: transform; /* Optimize for animations */
+}
+
+.segment-marker {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-left: 1px dashed #8B5CF6;
+  z-index: 10;
+}
+
+.replay-heatmap {
+  position: absolute;
+  bottom: 0;
+  height: 20px;
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.5));
+  z-index: 5;
+}
+
+/* Add touch styling for mobile */
+@media (hover: none) {
+  #left-handle, #right-handle {
+    width: 14px; /* Wider handles for touch devices */
+  }
+}
